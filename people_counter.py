@@ -18,6 +18,8 @@ ap.add_argument("-m", "--model", required=True,
 	help="path to Caffe pre-trained model")
 ap.add_argument("-c", "--confidence", type=float, default=0.2,
 	help="minimum probability to filter weak detections")
+ap.add_argument("-v", "--video_source", type=int, default=0,
+	help="video source (default = 0, external usually = 1)")
 args = vars(ap.parse_args())
 
 # initialize the list of class labels MobileNet SSD was trained to
@@ -35,7 +37,7 @@ net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 print("[INFO] starting video stream...")
-vs = VideoStream(src=1).start()
+vs = VideoStream(src=args["video_source"]).start()
 # vs = VideoStream(usePiCamera=True).start()
 time.sleep(2.0)
 fps = FPS().start()
